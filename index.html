@@ -1,35 +1,52 @@
+<!DOCTYPE html>
 <html>
-    <head>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
+<head>
+    <title>Store in DynamoDB</title>
+</head>
+<body>
 
-                    document.querySelector('button').addEventListener('click', function() {
-                        const email = document.getElementById('email').value;
-                        const name = document.getElementById('name').value;
-                        const url = `https://g1xx54hvl0.execute-api.eu-west-1.amazonaws.com/default/Gargi-func`;
-                        
-                        fetch(url)
-                            .then(response => response.json())
-                            .then(data => console.log(data))
-                            .catch(error => console.error('Error:', error));
-                    });
-            });
+<h2>Save User Details</h2>
 
-            </script>
-    </head>
+<form id="userForm">
+    <label>Name:</label><br>
+    <input type="text" id="name" required><br><br>
 
-    <body>
-        Hello HTW
+    <label>Email:</label><br>
+    <input type="email" id="email" required><br><br>
 
-        # add two input field s and a button
-        <form>
-            <input type="text" id="email" name="email" >
-            <input type="text" id="name" name="name" >
+    <button type="submit">Submit</button>
+</form>
 
-            <button type="button">Submit</button>
-        </form> 
+<p id="response"></p>
 
-    </body>
+<script>
+// Your API Gateway URL
+const apiUrl = "https://ufsst2d3g8.execute-api.eu-west-1.amazonaws.com/default/AbihshekNew-Resource";
 
+document.getElementById("userForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
+    const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value
+    };
+
+    fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        document.getElementById("response").innerText = "Saved successfully!";
+        console.log(result);
+    })
+    .catch(error => {
+        document.getElementById("response").innerText = "Error saving data!";
+        console.error(error);
+    });
+});
+</script>
+
+</body>
 </html>
